@@ -33,4 +33,8 @@ FactoryGirl.define do
     author
     url { Faker::Avatar.image }
   end
+
+  factory :thing do
+    name { Faker::Lorem.word }
+  end
 end

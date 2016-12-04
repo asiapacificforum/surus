@@ -1,3 +1,4 @@
+require 'pry'
 module Surus
   module JSON
     class Query
@@ -57,6 +58,8 @@ module Surus
               :has_many
             when ActiveRecord::Reflection::HasAndBelongsToManyReflection
               :has_and_belongs_to_many
+            when ActiveRecord::Reflection::ThroughReflection
+              :through
             end
           else
             # Rails 4.0-4.1
@@ -75,6 +78,9 @@ module Surus
             ArrayAggQuery.new(association_scope, association_options).to_sql
           when :has_and_belongs_to_many
             association_scope = HasAndBelongsToManyScopeBuilder.new(original_scope, association).scope
+            ArrayAggQuery.new(association_scope, association_options).to_sql
+          when :through
+            association_scope = ThroughScopeBuilder.new(original_scope, association).scope
             ArrayAggQuery.new(association_scope, association_options).to_sql
           end
           "(#{subquery}) #{connection.quote_column_name association_name}"

@@ -213,5 +213,21 @@ describe 'json' do
         expect(all_json).to eq(to_json)
       end
     end
+
+    context 'when association includes a join table' do
+      before do
+        @user = FactoryGirl.create(:user)
+        first_thing = FactoryGirl.create(:thing)
+        second_thing = FactoryGirl.create(:thing)
+        @user.things << first_thing
+        @user.things << second_thing
+      end
+
+      it 'encodes the joined table' do
+        to_json = Oj.load User.all.to_json include: :things
+        all_json = Oj.load User.all_json(include: :things)
+        expect(all_json).to eq(to_json)
+      end
+    end
   end
 end

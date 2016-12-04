@@ -120,3 +120,17 @@ CREATE TABLE posts_tags(
   tag_id integer NOT NULL REFERENCES tags,
   PRIMARY KEY (post_id, tag_id)
 );
+
+DROP TABLE IF EXISTS user_things CASCADE;
+
+CREATE TABLE user_things(
+  user_id integer NOT NULL REFERENCES users,
+  thing_id integer NOT NULL REFERENCES things
+);
+
+DROP TABLE IF EXISTS things CASCADE;
+
+CREATE TABLE things(
+  id serial PRIMARY KEY,
+  name varchar NOT NULL UNIQUE
+);

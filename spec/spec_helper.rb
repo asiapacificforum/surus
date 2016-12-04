@@ -37,6 +37,20 @@ class User < ActiveRecord::Base
     -> { where '1=2' },
     foreign_key: :author_id,
     class_name: 'Bio'
+
+  # association with join table
+  has_many :user_things
+  has_many :things, :through => :user_things
+end
+
+class Thing < ActiveRecord::Base
+  has_many :user_things
+  has_many :users, :through => :user_things
+end
+
+class UserThing < ActiveRecord::Base
+  belongs_to :thing
+  belongs_to :user
 end
 
 class Bio < ActiveRecord::Base
