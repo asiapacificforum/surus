@@ -1,4 +1,3 @@
-require 'pry'
 module Surus
   module JSON
     class Query
